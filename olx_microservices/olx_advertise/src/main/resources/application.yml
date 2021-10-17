@@ -12,4 +12,25 @@ eureka:
   instance:
     hostname: localhost
     instance-id: ${spring.application.name}:${random.uuid}   
-  
+    #health.circuitbreakers.enabled
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+
+resilience4j.circuitbreaker:
+    configs:
+        default:
+            slidingWindowSize: 100
+            permittedNumberOfCallsInHalfOpenState: 10
+            waitDurationInOpenState: 10000
+            failureRateThreshold: 60
+            eventConsumerBufferSize: 10
+            registerHealthIndicator: true
+        someShared:
+            slidingWindowSize: 50
+            permittedNumberOfCallsInHalfOpenState: 10
+    
